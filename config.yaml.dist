@@ -1,0 +1,54 @@
+glftpd:
+  # path to glftpd.conf for usage with chrooted site binaries
+  conf: /opt/glftpd.conf
+  # path to glftpd installation, prefix for most other paths
+  path: /opt/glftpd
+  # chrooted path to the glftpd.log, used for irc announces
+  log: /ftp-data/logs/glftpd.log
+  # list of paths inside the glftpd chroot to check for releases
+  section_paths:
+    - /site/incoming/mp3
+    - /site/incoming/movies-1080
+    - /site/incoming/movies-2160
+    - /site/incoming/movies-720
+    - /site/incoming/movies-sd
+    - /site/incoming/tv-1080
+    - /site/incoming/tv-2160
+    - /site/incoming/tv-720
+    - /site/incoming/tv-sd
+    - /site/recent/mp3
+    - /site/recent/movies-1080
+    - /site/recent/movies-2160
+    - /site/recent/movies-720
+    - /site/recent/movies-sd
+    - /site/recent/tv-1080
+    - /site/recent/tv-2160
+    - /site/recent/tv-720
+    - /site/recent/tv-sd
+  # releases in these paths do not contains samples, do not complain if they don't have sample subdirs
+  no_sample_paths:
+    - /site/incoming/mp3
+    - /site/recent/mp3
+  # releases in these paths should be autonuked if they're incomplete
+  nuke_on_inc_paths:
+    - /site/incoming/mp3
+    - /site/recent/mp3
+  # default user/group to following values below these paths for announces
+  mask_userinfo_paths:
+    - /site/missing
+  mask_user: glftpd
+  mask_group: glftpd
+
+regex:
+  complete: '\[[^\]]+\] - \( .* - COMPLETE .*?\) - \[[^\]]+\]'
+  daydir: '^\d{4}$'
+  incomplete: '\[[^\]]+\] -\s*(\d{1,2})\% Complete -'
+  nukes: '^NUKED\-.+'
+  special: '[\_\-\.]((SAMPLE|NFO|DIR|PROOF|SUB).?FIX|DIRIFX|DiFRiX|SUBPACK|SOURCE.SAMPLE)[\_\-\.]|^_old$'
+
+incompletes:
+  # path where persistent data will be stored by the script
+  db: /opt/glftpd/sitebot/scripts/incompletes.db
+  # chrooted path where symlinks to incomplete releases will be created
+  path: /site/incompletes
+
