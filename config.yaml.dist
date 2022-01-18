@@ -25,6 +25,9 @@ glftpd:
     - /site/recent/tv-2160
     - /site/recent/tv-720
     - /site/recent/tv-sd
+  # these paths will not be crawled for releases
+  skip_paths:
+    - /site/incoming/mp3/index
   # releases in these paths do not contains samples, do not complain if they don't have sample subdirs
   no_sample_paths:
     - /site/incoming/mp3

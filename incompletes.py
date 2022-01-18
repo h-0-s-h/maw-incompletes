@@ -120,6 +120,9 @@ class IncompleteChecker:
         chroot_path = str(release_path).replace(str(self.glftpd_path), "")
         return Path(chroot_path)
 
+    def path_in_config(self, path: Path, key: str):
+        return any([x in str(path) for x in self.config["glftpd"].get(key, [])])
+
     def write_log(self, message: str):
         timestamp = time.strftime("%a %b %d %T %Y", time.gmtime())
         try:
@@ -190,6 +193,8 @@ class IncompleteChecker:
                 dirs += self.get_dirs(dirpath)
             elif self.nuke_re.match(dirpath.name):
                 continue
+            elif self.path_in_config(dirpath, "skip_paths"):
+                continue
             else:
                 dirs.append(dirpath)
         return dirs
@@ -225,9 +230,6 @@ class IncompleteChecker:
 
         if (time.time() - self.get_release_age(release_path)) < 60:
             # this release is merely 1min old and might still be raced so let's just leave it
-            return dirpath_announce, release, reasons, "", ""
-
-        if release == "tmp":
             return dirpath_announce, release, reasons, "", ""
 
         with self.conn:
@@ -366,26 +368,17 @@ class IncompleteChecker:
         if (
             sample == 0
             and not self.fix_check(dirpath, release)
-            and not any(
-                [x in str(dirpath) for x in self.config["glftpd"]["no_sample_paths"]]
-            )
+            and not self.path_in_config(dirpath, "no_sample_paths")
         ):
             reasons.append("sample")
 
         user, group = self.get_user_group(uid, gid)
         if len(reasons):
-            if any(
-                [
-                    x in str(dirpath)
-                    for x in self.config["glftpd"]["mask_userinfo_paths"]
-                ]
-            ):
+            if self.path_in_config(dirpath, "mask_userinfo_paths"):
                 user = config["glftpd"]["mask_user"]
                 group = config["glftpd"]["mask_group"]
 
-            if any(
-                [x in str(dirpath) for x in self.config["glftpd"]["nuke_on_inc_paths"]]
-            ):
+            if self.path_in_config(dirpath, "nuke_on_inc_paths"):
                 self.nuke_dir(release_path)
                 return dirpath_announce, release, reasons, user, group
 
