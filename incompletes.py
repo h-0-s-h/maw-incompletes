@@ -284,11 +284,11 @@ class IncompleteChecker:
             subdir_name = path.name.lower()
             files_lc = [f.lower() for f in files]
 
-            for subdir in subdirs:
-                if self.complete_re.search(subdir):
+            for entry in subdirs + files:
+                if self.complete_re.search(entry):
                     is_complete = True
                     complete_dirs.append(path)
-                elif self.incomplete_re.search(subdir):
+                elif self.incomplete_re.search(entry):
                     is_complete = False
                     complete_dirs.append(path)
                     if is_root:
