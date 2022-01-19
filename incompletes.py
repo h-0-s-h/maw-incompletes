@@ -439,7 +439,7 @@ if __name__ == "__main__":
     if args.silent:
         for message in messages:
             logging.info(message)
-    else:
+    elif len(messages):
         checker.write_log("Please complete the following releases:")
         for message in messages:
             checker.write_log(message)
