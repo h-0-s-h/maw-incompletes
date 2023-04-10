@@ -107,6 +107,7 @@ class IncompleteChecker:
         check = release
         for char in ["_", "-", "."]:
             check = check.replace(char, "*")
+        check = re.sub(r"\*+", "*", check)
         for dirpath in path.glob(check):
             if self.special_re.search(dirpath.name):
                 if (
@@ -316,6 +317,8 @@ class IncompleteChecker:
                                 if release_file not in files_lc:
                                     is_complete = False
                                     break
+                    elif file.suffix.lower() == ".diz":
+                        sfv += 1
                     elif file.suffix.lower().endswith("-missing"):
                         self.undupe(path, file.name.replace("-missing", ""))
 
