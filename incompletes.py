@@ -276,6 +276,7 @@ class IncompleteChecker:
 
         nfo = 0
         sample = 0
+        zips = 0
         complete_dirs = []
 
         rescanned = False
@@ -319,6 +320,8 @@ class IncompleteChecker:
                                     break
                     elif file.suffix.lower() == ".diz":
                         sfv += 1
+                    elif file.suffix.lower() == ".zip" and is_root:
+                        zips += 1
                     elif file.suffix.lower().endswith("-missing"):
                         self.undupe(path, file.name.replace("-missing", ""))
 
@@ -359,6 +362,10 @@ class IncompleteChecker:
             if sfv > 0 and path not in complete_dirs:
                 # we have sfv files but no complete/incomplete dir in the folder, maybe zipscript crapped out?
                 # rescan and re-check the next time around
+                self.rescan(path)
+                rescanned = True
+            elif is_root and zips > 0 and sfv == 0:
+                # zipscript probably failed to unpack diz during race, rescan to try and unpack it
                 self.rescan(path)
                 rescanned = True
 
