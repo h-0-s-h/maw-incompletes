@@ -219,6 +219,11 @@ class IncompleteChecker:
                 message = f"    {site_path}/\002{release}\002 lacks \002{'/'.join(reasons)}\002, was sent by \002{user}\002/{group}"
                 messages.append(message)
 
+        # dead symlink removal
+        for path in self.incompletes_path.iterdir():
+            if path.is_symlink() and not path.is_dir():
+                path.unlink()
+
         return messages
 
     def check_release(self, release_path: Path) -> (str, str, [str], str, str):
