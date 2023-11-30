@@ -53,6 +53,23 @@ Please complete the following releases:
 
 ### Changelog
 
+#### 2023-11-30
+
+- Add cleanup of dead symlinks in incompletes folder
+
+#### 2023-07-23
+
+- Add support for diz/zip releases
+
+#### 2022-01-19
+
+- Only write to log/irc if there is anything to complete, reduce noise
+
+#### 2022-01-18
+
+- Consider dirs and files for complete check
+- Add `skip_paths` option to exclude paths from being checked
+
 #### 2022-01-17
 
-Initial release
+- Initial release
