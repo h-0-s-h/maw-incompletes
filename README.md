@@ -53,6 +53,10 @@ Please complete the following releases:
 
 ### Changelog
 
+#### 2024-07-25
+
+- Add .wmv as valid extension for sample
+
 #### 2023-11-30
 
 - Add cleanup of dead symlinks in incompletes folder

@@ -339,7 +339,7 @@ class IncompleteChecker:
 
             elif subdir_name == "sample":
                 for file in [path / f for f in files]:
-                    if file.suffix.lower() in (".avi", ".m2ts", ".mkv", ".mp4", ".vob"):
+                    if file.suffix.lower() in (".avi", ".m2ts", ".mkv", ".mp4", ".vob", ".wmv"):
                         sample += 1
                     elif file.suffix.lower() in (".jpeg", ".jpg", ".png"):
                         # proof pics or such for propers
