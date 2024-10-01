@@ -53,6 +53,9 @@ Please complete the following releases:
 
 ### Changelog
 
+#### 2024-10-01
+- Extra loops for DATED dirs, ghetto workaround, sue me.
+
 #### 2024-07-25
 
 - Add .wmv as valid extension for sample
