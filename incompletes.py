@@ -294,16 +294,18 @@ class IncompleteChecker:
             files_lc = [f.lower() for f in files]
 
             for entry in subdirs + files:
+                full_path_to_files = path / entry
                 if self.complete_re.search(entry):
                     is_complete = True
                     complete_dirs.append(path)
                 elif self.incomplete_re.search(entry):
-                    is_complete = False
-                    complete_dirs.append(path)
-                    if is_root:
-                        reasons.append("is currently incomplete!")
-                    else:
-                        reasons.append(f"/{subdir_name} appears to be incomplete!")
+                    if not full_path_to_files.is_file(): ### ghetto workaround for files named xxx-incomplete.mp3 for example >_>
+                        is_complete = False
+                        complete_dirs.append(path)
+                        if is_root:
+                            reasons.append("is currently incomplete!")
+                        else:
+                            reasons.append(f"/{subdir_name} appears to be incomplete!")
 
             if is_root or subdir_name in ["subs"]:
                 for file in [path / f for f in files]:
